@@ -23,10 +23,8 @@ public class Attract : MonoBehaviour {
         if (PlayerMovement.batting == true)
         {
             //move enemy towards player
-            Debug.Log(PlayerMovement.playerPosition);
             currPosition = transform.position;
             moveEnemy();
-            //body.velocity = new Vector2(Mathf.Lerp(0, 1f, 0.8f), Mathf.Lerp(0, 1f, 0.8f));
         }		
 	}
 
