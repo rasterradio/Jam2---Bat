@@ -10,17 +10,21 @@ public class PlayerMovement : MonoBehaviour {
     public float speed = 20f;
     public float speedLimit = 0.7f;
 
+    public Texture2D closedEye;
+    public Texture2D openEye;
+    public CursorMode cursorMode = CursorMode.Auto;
+    public Vector2 hotSpot = Vector2.zero;
+
     public static bool batting = false;
     public static Vector2 playerPosition;
 
-	void Start ()
-    {
+	void Start () {
         body = GetComponent<Rigidbody>();
+		
 	}
 
-    void Update ()
-    {
-
+    void Update () {
+        doInput();
     }
 
     private void FixedUpdate()
@@ -29,12 +33,21 @@ public class PlayerMovement : MonoBehaviour {
             body.velocity = new Vector2((Mathf.Lerp(0, Input.GetAxis("Horizontal") * speed, 0.8f)) * speedLimit, (Mathf.Lerp(0, Input.GetAxis("Vertical") * speed, 0.8f)) * speedLimit);
         else
             body.velocity = new Vector2(Mathf.Lerp(0, Input.GetAxis("Horizontal") * speed, 0.8f), Mathf.Lerp(0, Input.GetAxis("Vertical") * speed, 0.8f));
-        playerPosition = transform.position;
+            playerPosition = transform.position;
     }
 
     void doInput()
     {
-
+        if (Input.GetMouseButtonDown(0) && batting == false)
+        {
+            batting = true;
+            Cursor.SetCursor(openEye, hotSpot, cursorMode);
+        }
+        else if (Input.GetMouseButtonDown(0) && batting == true)
+        {
+            batting = false;
+            Cursor.SetCursor(closedEye, hotSpot, cursorMode);
+        }
     }
 
     bool GetButtonDown(string buttonName)

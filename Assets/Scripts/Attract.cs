@@ -6,17 +6,20 @@ public class Attract : MonoBehaviour
 {
 
     bool batting;
-    [SerializeField] GameObject anchor;
+    bool lineOfSight;
+    float distance;
 
     private Rigidbody body;
     public float speed = 1f;
     public Vector3 currPosition;
-    public LayerMask myMask;
+
+    GameObject player;
+    //GameObject enemy;
 
     // Use this for initialization
     void Start()
     {
-
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
 
@@ -25,28 +28,13 @@ public class Attract : MonoBehaviour
     {
         if (PlayerMovement.batting == true)
         {
-            /*//move enemy towards player
-            currPosition = transform.position;
-            moveEnemy();
-
-            if (Physics2D.Raycast(this.transform.position, anchor.transform.position - this.transform.position, 1000f, myMask))
+            //If there is nothing blocking line of sight
+            if (lookForPlayer() == true)
             {
-                RaycastHit2D temp = Physics2D.Raycast(this.transform.position, anchor.transform.position - this.transform.position, 1000f, myMask);
-                Debug.Log(temp.transform.gameObject);
-                Debug.Log(temp.transform.tag);
-                if (temp.transform.tag == "Enemy")
-                {   //Call funct
-                    Debug.Log("Got here");
-                    if (temp.transform.GetComponent<EnemyController>())
-                    {
-                        temp.transform.GetComponent<EnemyController>().getCharmed(this.transform.position);
-                    }
-                }
-
-            }*/
-            CanSeePlayer();
-
-            
+                //move enemy towards player
+                currPosition = transform.position;
+                moveEnemy();
+            }
         }
     }
 
@@ -55,18 +43,23 @@ public class Attract : MonoBehaviour
         transform.position = Vector3.MoveTowards(currPosition, PlayerMovement.playerPosition, speed);
     }
 
-    bool CanSeePlayer()
+    bool lookForPlayer()
     {
-        //rayDirection = playerObject.transform.position - transform.position;
-        if (Physics.Raycast(transform.position, anchor.transform.position - this.transform.position, myMask))
+        //Vector3 playerDir = this.transform.position - player.transform.position;
+        Vector3 playerDir = player.transform.position - transform.position;
+        playerDir.Normalize();
+        Ray ray = new Ray(this.transform.position, playerDir);
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(ray, out hitInfo))
         {
-            Debug.Log("Can see player");
-            return true;
+            GameObject go = hitInfo.collider.gameObject;
+            if (go.name == "Player")
+                return true;
+            else
+                return false;
         }
         else
-        {
-            Debug.Log("Can't see player");
             return false;
-        }
     }
 }
