@@ -24,16 +24,20 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
     void Update () {
+        //horizontal = Input.GetAxisRaw("Horizontal");
+        //vertical = Input.GetAxisRaw("Vertical");
         doInput();
     }
 
     private void FixedUpdate()
     {
         if (horizontal != 0 && vertical != 0)
+            //body.velocity = new Vector2((horizontal * speed) * speedLimit, (vertical * speed) * speedLimit);
             body.velocity = new Vector2((Mathf.Lerp(0, Input.GetAxis("Horizontal") * speed, 0.8f)) * speedLimit, (Mathf.Lerp(0, Input.GetAxis("Vertical") * speed, 0.8f)) * speedLimit);
         else
+            //body.velocity = new Vector2(horizontal * speed, vertical * speed);
             body.velocity = new Vector2(Mathf.Lerp(0, Input.GetAxis("Horizontal") * speed, 0.8f), Mathf.Lerp(0, Input.GetAxis("Vertical") * speed, 0.8f));
-            playerPosition = transform.position;
+        playerPosition = transform.position;
     }
 
     void doInput()

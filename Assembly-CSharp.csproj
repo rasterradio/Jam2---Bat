@@ -62,10 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Attract.cs" />
-    <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\MouseCursor.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\PressurePlate.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/Ian/Documents/Jam2 - Bat/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
